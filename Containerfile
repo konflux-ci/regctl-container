@@ -15,7 +15,7 @@ WORKDIR /src
 
 FROM golang as build
 COPY regclient/go.* /src/
-RUN go mod download
+# RUN go mod download
 COPY regclient/. /src/
 RUN make bin/regctl
 USER appuser
