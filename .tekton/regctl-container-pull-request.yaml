@@ -83,7 +83,7 @@ spec:
         to build image.
       name: path-context
       type: string
-    - default: Dockerfile
+    - default: Containerfile
       description: Path to the Dockerfile inside the context specified by parameter
         path-context
       name: dockerfile
@@ -96,13 +96,17 @@ spec:
       description: Skip checks against built image
       name: skip-checks
       type: string
-    - default: "false"
+    - default: "true"
       description: Execute the build with network isolation
       name: hermetic
       type: string
-    - default: ""
+    - default: '{"packages": [{"path": "regclient", "type": "gomod"}, {"type": "rpm"}], "flags": ["gomod-vendor"]}'
       description: Build dependencies to be prefetched by Cachi2
       name: prefetch-input
+      type: string
+    - default: "true"
+      description: Enable dev-package-managers in prefetch task
+      name: prefetch-dev-package-managers-enabled
       type: string
     - default: "false"
       description: Java build
@@ -186,6 +190,8 @@ spec:
       params:
       - name: input
         value: $(params.prefetch-input)
+      - name: dev-package-managers
+        value: $(params.prefetch-dev-package-managers-enabled)
       runAfter:
       - clone-repository
       taskRef:
