@@ -4,7 +4,7 @@ ARG GO_VER=1.22.3-alpine@sha256:b8ded51bad03238f67994d0a6b88680609b392db04312f60
 ARG ECR_HELPER_VER=0fe7eafab21668ab8d04f0246d88e4dd6c305114
 ARG GCR_HELPER_VER=v2.1.22
 
-FROM registry.access.redhat.com/ubi9/ubi:latest@sha256:66233eebd72bb5baa25190d4f55e1dc3fff3a9b77186c1f91a0abdb274452072 as golang
+FROM registry.access.redhat.com/ubi9/ubi:latest@sha256:9e6a89ab2a9224712391c77fab2ab01009e387aff42854826427aaf18b98b1ff as golang
 RUN dnf -y install git make golang
 RUN \
   groupadd -g 1000 appuser; \
@@ -21,7 +21,7 @@ RUN make bin/regctl
 USER appuser
 CMD [ "bin/regctl" ]
 
-FROM registry.access.redhat.com/ubi9/ubi:latest@sha256:66233eebd72bb5baa25190d4f55e1dc3fff3a9b77186c1f91a0abdb274452072
+FROM registry.access.redhat.com/ubi9/ubi:latest@sha256:9e6a89ab2a9224712391c77fab2ab01009e387aff42854826427aaf18b98b1ff
 COPY --from=build /etc/passwd /etc/group /etc/
 COPY --from=build --chown=appuser /home/appuser /home/appuser
 COPY --from=build /src/bin/regctl /usr/local/bin/regctl
